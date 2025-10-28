@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowUpDown, ArrowUp, ArrowDown, Search } from "lucide-react";
+import { useLocation } from "wouter";
 
 interface PlayerStatsTableProps {
   stats: SeasonStats[];
@@ -22,6 +23,7 @@ type SortKey = keyof Omit<SeasonStats, 'player'>;
 type SortDirection = 'asc' | 'desc';
 
 export function PlayerStatsTable({ stats, title = "Player Statistics" }: PlayerStatsTableProps) {
+  const [, setLocation] = useLocation();
   const [sortKey, setSortKey] = useState<SortKey>('pts');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [searchQuery, setSearchQuery] = useState('');
@@ -161,7 +163,8 @@ export function PlayerStatsTable({ stats, title = "Player Statistics" }: PlayerS
               {filteredAndSortedStats.map((stat) => (
                 <TableRow
                   key={stat.player.id}
-                  className="hover-elevate"
+                  className="hover-elevate cursor-pointer"
+                  onClick={() => setLocation(`/player/${stat.player.id}`)}
                   data-testid={`row-player-${stat.player.id}`}
                 >
                   <TableCell className="font-semibold sticky left-0 bg-card z-10">

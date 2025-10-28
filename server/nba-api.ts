@@ -2,6 +2,7 @@ import { storage } from "./storage";
 import type { Team, Player, Game, PlayerStats, SeasonStats, Standing, TeamStats, PlayEvent, ShotData } from "@shared/schema";
 
 const BALLDONTLIE_API = "https://api.balldontlie.io/v1";
+const API_KEY = process.env.BALLDONTLIE_API_KEY;
 
 async function fetchFromAPI(endpoint: string, cacheKey?: string, cacheTTL = 60): Promise<any> {
   if (cacheKey) {
@@ -11,7 +12,16 @@ async function fetchFromAPI(endpoint: string, cacheKey?: string, cacheTTL = 60):
     }
   }
 
-  const response = await fetch(`${BALLDONTLIE_API}${endpoint}`);
+  if (!API_KEY) {
+    throw new Error("BALLDONTLIE_API_KEY not configured");
+  }
+
+  const response = await fetch(`${BALLDONTLIE_API}${endpoint}`, {
+    headers: {
+      'Authorization': API_KEY,
+    },
+  });
+  
   if (!response.ok) {
     throw new Error(`NBA API error: ${response.statusText}`);
   }

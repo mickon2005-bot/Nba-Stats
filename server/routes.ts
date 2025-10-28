@@ -77,6 +77,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/players/:id/stats", async (req, res) => {
+    try {
+      const stats = await getPlayerStats();
+      const playerStat = stats.find(s => s.player.id === parseInt(req.params.id));
+      if (!playerStat) {
+        return res.status(404).json({ error: "Player not found" });
+      }
+      res.json(playerStat);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.get("/api/players/:id/shots", async (req, res) => {
+    try {
+      const shots = generateMockShotChart(parseInt(req.params.id));
+      res.json(shots);
+    } catch (error: any) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

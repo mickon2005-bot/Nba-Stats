@@ -1,18 +1,47 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type SeasonStats } from "@shared/schema";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Users, Trophy, Target, TrendingUp, Search, Filter, Award } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { SeasonSelector } from "@/components/SeasonSelector";
+import { getCurrentSeason } from "@/lib/seasons";
 
 export default function Players() {
-  const { data: stats, isLoading } = useQuery<SeasonStats[]>({
-    queryKey: ["/api/players/stats"],
-    retry: 1,
-  });
-
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<"all" | "scorers" | "rebounders" | "assists">("all");
+  
+  // Initialize season from URL params, localStorage, or default
+  const getInitialSeason = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlSeason = urlParams.get('playersSeason');
+    if (urlSeason) return urlSeason;
+    
+    const storedSeason = localStorage.getItem('playersSeason');
+    if (storedSeason) return storedSeason;
+    
+    return getCurrentSeason();
+  };
+  
+  const [selectedSeason, setSelectedSeason] = useState(getInitialSeason);
+  
+  // Sync URL and localStorage when season changes
+  useEffect(() => {
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.set('playersSeason', selectedSeason);
+    window.history.replaceState({}, '', `${window.location.pathname}?${newParams.toString()}`);
+    localStorage.setItem('playersSeason', selectedSeason);
+  }, [selectedSeason]);
+
+  const { data: stats, isLoading } = useQuery<SeasonStats[]>({
+    queryKey: ["/api/players/stats", selectedSeason],
+    queryFn: async () => {
+      const response = await fetch(`/api/players/stats?season=${selectedSeason}`);
+      if (!response.ok) throw new Error('Failed to fetch player stats');
+      return response.json();
+    },
+    retry: 1,
+  });
 
   const filteredStats = stats?.filter(stat => {
     const playerName = `${stat.player.first_name} ${stat.player.last_name}`.toLowerCase();
@@ -44,10 +73,13 @@ export default function Players() {
           <p className="text-muted-foreground text-lg">Season averages and performance leaders</p>
         </div>
         
-        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border/50">
-          <Users className="w-5 h-5 text-primary" />
-          <span className="font-mono font-bold text-2xl">{stats?.length || 0}</span>
-          <span className="text-sm text-muted-foreground">Players</span>
+        <div className="flex items-center gap-3 flex-wrap">
+          <SeasonSelector value={selectedSeason} onChange={setSelectedSeason} />
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border/50">
+            <Users className="w-5 h-5 text-primary" />
+            <span className="font-mono font-bold text-2xl">{stats?.length || 0}</span>
+            <span className="text-sm text-muted-foreground">Players</span>
+          </div>
         </div>
       </div>
 

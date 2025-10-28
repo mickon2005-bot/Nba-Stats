@@ -74,10 +74,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const season = (req.query.season as string) || '2024-25';
+
   try {
     const data = await fetchStatsNBA('leaguestandingsv3', {
       LeagueID: '00',
-      Season: '2024-25',
+      Season: season,
       SeasonType: 'Regular Season',
     });
 

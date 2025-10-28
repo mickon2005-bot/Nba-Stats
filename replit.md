@@ -5,6 +5,7 @@ A comprehensive real-time NBA statistics tracker featuring live game scores, pla
 ## Features
 
 ### Core Features
+- **Season Selection**: Browse and compare statistics across NBA seasons from 2018-19 to 2024-25
 - **Live Game Scores**: Real-time updates for ongoing NBA games with quarter-by-quarter scores
 - **Conference Standings**: Separate East and West conference standings with win/loss records, percentages, and streaks
 - **Player Statistics**: Comprehensive player stats including points, rebounds, assists, shooting percentages
@@ -160,6 +161,7 @@ The application tracks the **2024-25 NBA season**.
 **✅ Production Ready** - All core MVP features implemented, tested, and redesigned with premium aesthetic
 
 **What's Working:**
+- ✅ **Season Selection**: Browse historical seasons (2018-19 to 2024-25) with independent persistence per page
 - ✅ **Modern UI Redesign**: Premium ESPN/NBA.com-inspired design with glassmorphism and gradients
 - ✅ **Hero Dashboard**: Gradient hero section with live stats, game cards, and conference standings
 - ✅ **Enhanced Player Pages**: Card-based layout with search, category filtering, and rank badges
@@ -172,7 +174,7 @@ The application tracks the **2024-25 NBA season**.
 - ✅ Dark/light theme toggle with proper color adaptation
 - ✅ Professional error handling with graceful fallbacks
 - ✅ No API keys required - zero configuration
-- ✅ End-to-end tested with Playwright (all navigation and filtering verified)
+- ✅ End-to-end tested with Playwright (all features verified)
 
 **Deployment Status:**
 - ✅ **Replit**: Works with simulated data (Stats.NBA.com blocked on Replit infrastructure)

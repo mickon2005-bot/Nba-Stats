@@ -1,16 +1,45 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type TeamStats } from "@shared/schema";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Shield, TrendingUp, Target, Activity, Trophy } from "lucide-react";
+import { SeasonSelector } from "@/components/SeasonSelector";
+import { getCurrentSeason } from "@/lib/seasons";
 
 export default function Teams() {
+  const [selectedConference, setSelectedConference] = useState<"all" | "east" | "west">("all");
+  
+  // Initialize season from URL params, localStorage, or default
+  const getInitialSeason = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlSeason = urlParams.get('teamsSeason');
+    if (urlSeason) return urlSeason;
+    
+    const storedSeason = localStorage.getItem('teamsSeason');
+    if (storedSeason) return storedSeason;
+    
+    return getCurrentSeason();
+  };
+  
+  const [selectedSeason, setSelectedSeason] = useState(getInitialSeason);
+  
+  // Sync URL and localStorage when season changes
+  useEffect(() => {
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.set('teamsSeason', selectedSeason);
+    window.history.replaceState({}, '', `${window.location.pathname}?${newParams.toString()}`);
+    localStorage.setItem('teamsSeason', selectedSeason);
+  }, [selectedSeason]);
+
   const { data: teamStats, isLoading } = useQuery<TeamStats[]>({
-    queryKey: ["/api/teams/stats"],
+    queryKey: ["/api/teams/stats", selectedSeason],
+    queryFn: async () => {
+      const response = await fetch(`/api/teams/stats?season=${selectedSeason}`);
+      if (!response.ok) throw new Error('Failed to fetch team stats');
+      return response.json();
+    },
     retry: 1,
   });
-
-  const [selectedConference, setSelectedConference] = useState<"all" | "east" | "west">("all");
 
   const eastTeams = teamStats?.filter(t => t.team.conference === "East").sort((a, b) => b.wins - a.wins) || [];
   const westTeams = teamStats?.filter(t => t.team.conference === "West").sort((a, b) => b.wins - a.wins) || [];
@@ -35,10 +64,13 @@ export default function Teams() {
           <p className="text-muted-foreground text-lg">Performance metrics and team rankings</p>
         </div>
         
-        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border/50">
-          <Shield className="w-5 h-5 text-primary" />
-          <span className="font-mono font-bold text-2xl">30</span>
-          <span className="text-sm text-muted-foreground">Teams</span>
+        <div className="flex items-center gap-3 flex-wrap">
+          <SeasonSelector value={selectedSeason} onChange={setSelectedSeason} />
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border/50">
+            <Shield className="w-5 h-5 text-primary" />
+            <span className="font-mono font-bold text-2xl">30</span>
+            <span className="text-sm text-muted-foreground">Teams</span>
+          </div>
         </div>
       </div>
 

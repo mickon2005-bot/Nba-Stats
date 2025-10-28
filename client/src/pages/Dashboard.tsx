@@ -1,11 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { type Game, type Standing } from "@shared/schema";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Trophy, TrendingUp, Users, Award, ChevronRight, Clock, Play, CheckCircle2 } from "lucide-react";
 import { useLocation } from "wouter";
+import { SeasonSelector } from "@/components/SeasonSelector";
+import { getCurrentSeason } from "@/lib/seasons";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
+  
+  // Initialize season from URL params, localStorage, or default
+  const getInitialSeason = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlSeason = urlParams.get('dashboardSeason');
+    if (urlSeason) return urlSeason;
+    
+    const storedSeason = localStorage.getItem('dashboardSeason');
+    if (storedSeason) return storedSeason;
+    
+    return getCurrentSeason();
+  };
+  
+  const [selectedSeason, setSelectedSeason] = useState(getInitialSeason);
+  
+  // Sync URL and localStorage when season changes
+  useEffect(() => {
+    const newParams = new URLSearchParams(window.location.search);
+    newParams.set('dashboardSeason', selectedSeason);
+    window.history.replaceState({}, '', `${window.location.pathname}?${newParams.toString()}`);
+    localStorage.setItem('dashboardSeason', selectedSeason);
+  }, [selectedSeason]);
 
   const { data: games, isLoading: gamesLoading } = useQuery<Game[]>({
     queryKey: ["/api/games/today"],
@@ -13,7 +38,12 @@ export default function Dashboard() {
   });
 
   const { data: standings, isLoading: standingsLoading } = useQuery<Standing[]>({
-    queryKey: ["/api/standings"],
+    queryKey: ["/api/standings", selectedSeason],
+    queryFn: async () => {
+      const response = await fetch(`/api/standings?season=${selectedSeason}`);
+      if (!response.ok) throw new Error('Failed to fetch standings');
+      return response.json();
+    },
     retry: 1,
   });
 
@@ -31,17 +61,22 @@ export default function Dashboard() {
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30"></div>
         
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-2xl bg-white/20 backdrop-blur-sm">
-              <Trophy className="w-8 h-8 text-white" />
+          <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-2xl bg-white/20 backdrop-blur-sm">
+                <Trophy className="w-8 h-8 text-white" />
+              </div>
+              <div className="px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm">
+                <span className="text-white text-sm font-semibold uppercase tracking-wider">Live Tracker</span>
+              </div>
             </div>
-            <div className="px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-sm">
-              <span className="text-white text-sm font-semibold uppercase tracking-wider">Live Tracker</span>
+            <div className="bg-white/10 backdrop-blur-md rounded-xl">
+              <SeasonSelector value={selectedSeason} onChange={setSelectedSeason} />
             </div>
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 tracking-tight" data-testid="heading-dashboard">
-            NBA Stats <span className="text-white/80">2024-25</span>
+            NBA Stats <span className="text-white/80">{selectedSeason}</span>
           </h1>
           
           <p className="text-white/90 text-lg md:text-xl font-medium max-w-2xl">

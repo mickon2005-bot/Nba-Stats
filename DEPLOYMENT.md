@@ -44,12 +44,8 @@ You've already pushed your code, so you're good to go!
    - ✅ **Node.js Version:** 18.x or higher
 
    **Environment Variables:**
-   - Click **"Environment Variables"**
-   - Add ONE variable:
-     - **Name:** `BALLDONTLIE_API_KEY`
-     - **Value:** `67fd791f-fa2b-4403-a536-4807f5f602c9`
-   - Make sure it's selected for **Production, Preview, and Development**
-   - Click "Add"
+   - ✅ **No environment variables needed!** This app uses only stats.nba.com which doesn't require an API key.
+   - You can skip this section entirely.
 
 4. **Deploy!**
    - Click the big blue **"Deploy"** button
@@ -126,11 +122,10 @@ Whenever you make changes in Replit:
 - Click "Redeploy" in Vercel dashboard
 - Try clearing build cache: Settings → General → Clear Build Cache
 
-### **Environment Variable Missing**
-- Go to: Dashboard → Your Project → Settings → Environment Variables
-- Verify `BALLDONTLIE_API_KEY` exists
-- Make sure it's enabled for Production
-- Redeploy after adding
+### **No API Keys Required**
+- This app uses stats.nba.com exclusively
+- No environment variables or API keys needed
+- Everything works out of the box!
 
 ### **API Returning Errors**
 - Check browser console (F12) for error messages
@@ -150,11 +145,11 @@ In Vercel dashboard:
 2. Add your custom domain
 3. Follow DNS configuration instructions
 
-### **Environment Variables for Different Environments**
-You can set different API keys for:
-- **Production** - Your live site
-- **Preview** - Pull request previews
-- **Development** - Local development
+### **No Configuration Needed**
+This app works immediately after deployment:
+- ✅ No API keys to manage
+- ✅ No environment variables to configure
+- ✅ Just deploy and it works!
 
 ## 📊 **Monitoring**
 

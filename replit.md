@@ -144,6 +144,12 @@ The application tracks the **2024-25 NBA season**.
 
 - **API Integration**: Uses Stats.NBA.com exclusively - no API keys needed!
 - **Serverless Architecture**: Built for Vercel with individual serverless functions per endpoint
+- **Season Selection**: Implemented with dual persistence strategy
+  - **URL Query Parameters**: Page-specific params (dashboardSeason, playersSeason, teamsSeason) for sharing and bookmarking
+  - **localStorage**: Automatic persistence across navigation and page refreshes
+  - **Priority**: URL params → localStorage → default (2024-25)
+  - **Synchronization**: useEffect keeps URL and localStorage in sync
+  - **Independent State**: Each page maintains its own season selection
 - **Stats.NBA.com Integration**: Complete infrastructure with proper headers and timeout handling
   - Automatically fetches real shot chart data with X/Y coordinates
   - Automatically fetches real game-by-game player performance

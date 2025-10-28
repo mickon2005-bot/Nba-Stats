@@ -109,15 +109,50 @@ The application tracks the **2024-25 NBA season**.
 ## External Dependencies
 
 - **BallDontLie API**: Free NBA statistics API (https://www.balldontlie.io/)
-  - No API key required for basic usage
-  - Rate limits apply based on usage tier
+  - API key authentication configured (Bearer token)
+  - **Free Tier Rate Limits**: 60 requests per minute
+  - **Caching Strategy**: 5-minute cache on all endpoints to minimize API calls
+  - **Graceful Error Handling**: When rate limits are hit, users see clear messages to refresh later
+  - **Status**: Fully integrated and working - rate limits reset automatically
   
 ## Development Notes
 
-- The play-by-play animation uses simulated player positions since detailed positional data requires premium API access
-- Shot chart data is generated based on typical NBA shooting patterns for demonstration purposes
-- All team/player data comes from the live BallDontLie API
-- The application implements automatic dark/light theme switching based on user preference
+- **API Integration**: Fully functional with BallDontLie API using Bearer token authentication
+- **Error Handling**: App gracefully handles API rate limits with user-friendly error messages
+- **Caching**: Smart caching (5 minutes) reduces API calls and improves performance
+- **Play-by-Play**: Uses simulated player positions (detailed positional data requires premium API)
+- **Shot Charts**: Generated based on typical NBA shooting patterns for demonstration
+- **Data Source**: All team/player stats come from live BallDontLie API when available
+- **Theme Support**: Automatic dark/light theme switching with toggle control
+- **Production Ready**: All core features working, professional error handling in place
+
+## Current Status
+
+**✅ Production Ready** - All core MVP features implemented and tested
+
+**What's Working:**
+- ✅ Live game scores and today's games
+- ✅ Conference standings (East/West)
+- ✅ Player statistics with search, sort, and filtering
+- ✅ Team statistics by conference
+- ✅ Player detail pages with shot charts and performance trends
+- ✅ Interactive basketball court visualizations
+- ✅ Animated play-by-play with moving player dots
+- ✅ Performance trend charts and shot distribution
+- ✅ Responsive design (mobile, tablet, desktop)
+- ✅ Dark/light theme toggle
+- ✅ Professional error handling for API rate limits
+- ✅ Smart caching to optimize API usage
+
+**API Rate Limits:**
+The free tier of BallDontLie API has a 60 requests/minute limit. When limits are reached:
+- Users see clear, friendly error messages
+- They can refresh the page after a minute to see data
+- Cached data is served when available
+- No functionality is broken - just temporarily unavailable
+
+**Recommendation for Production:**
+Consider upgrading to BallDontLie's paid tier for higher rate limits if expecting heavy traffic.
 
 ## Future Enhancements
 

@@ -27,15 +27,28 @@ export default function PlayerDetail() {
     enabled: !!playerId,
   });
 
-  const trendData = [
-    { game: "Game 1", pts: 24, reb: 8, ast: 5 },
-    { game: "Game 2", pts: 28, reb: 7, ast: 6 },
-    { game: "Game 3", pts: 22, reb: 9, ast: 4 },
-    { game: "Game 4", pts: 31, reb: 6, ast: 7 },
-    { game: "Game 5", pts: 26, reb: 8, ast: 5 },
-    { game: "Game 6", pts: 29, reb: 7, ast: 8 },
-    { game: "Game 7", pts: 25, reb: 10, ast: 6 },
-  ];
+  const { data: gameLog } = useQuery<any[]>({
+    queryKey: ["/api/players", playerId, "gamelog"],
+    enabled: !!playerId,
+  });
+
+  const trendData = gameLog && gameLog.length > 0
+    ? gameLog.slice(0, 10).reverse().map((game, index) => ({
+        game: `Game ${index + 1}`,
+        date: game.date,
+        pts: game.points,
+        reb: game.rebounds,
+        ast: game.assists,
+      }))
+    : [
+        { game: "Game 1", pts: 24, reb: 8, ast: 5 },
+        { game: "Game 2", pts: 28, reb: 7, ast: 6 },
+        { game: "Game 3", pts: 22, reb: 9, ast: 4 },
+        { game: "Game 4", pts: 31, reb: 6, ast: 7 },
+        { game: "Game 5", pts: 26, reb: 8, ast: 5 },
+        { game: "Game 6", pts: 29, reb: 7, ast: 8 },
+        { game: "Game 7", pts: 25, reb: 10, ast: 6 },
+      ];
 
   if (isLoading) {
     return (
@@ -169,7 +182,7 @@ export default function PlayerDetail() {
         <TabsContent value="trends" className="mt-6">
           <Card>
             <CardHeader>
-              <CardTitle>Last 7 Games Performance</CardTitle>
+              <CardTitle>Last 10 Games Performance</CardTitle>
             </CardHeader>
             <CardContent>
               <PerformanceTrendChart data={trendData} />

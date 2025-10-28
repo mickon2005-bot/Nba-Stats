@@ -14,73 +14,75 @@
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
 
-  --background: 0 0% 98%;
+  --background: 0 0% 99%;
 
   --foreground: 222 15% 12%;
 
-  --border: 220 8% 88%;
+  --border: 223 20% 85%;
 
-  --card: 0 0% 96%;
+  --card: 0 0% 100%;
 
   --card-foreground: 222 15% 12%;
 
-  --card-border: 220 8% 90%;
+  --card-border: 223 15% 88%;
 
-  --sidebar: 0 0% 94%;
+  --sidebar: 223 40% 98%;
 
-  --sidebar-foreground: 222 15% 12%;
+  --sidebar-foreground: 223 64% 25%;
 
-  --sidebar-border: 220 8% 86%;
+  --sidebar-border: 223 20% 90%;
 
-  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary: 27 96% 61%;
 
-  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 220 12% 88%;
+  --sidebar-accent: 189 94% 43%;
 
-  --sidebar-accent-foreground: 222 15% 18%;
+  --sidebar-accent-foreground: 0 0% 100%;
 
-  --sidebar-ring: 221 83% 53%;
+  --sidebar-ring: 27 96% 61%;
 
-  --popover: 0 0% 92%;
+  --popover: 0 0% 100%;
 
   --popover-foreground: 222 15% 12%;
 
-  --popover-border: 220 8% 84%;
+  --popover-border: 223 15% 88%;
 
-  --primary: 221 83% 53%;
+  --primary: 27 96% 61%;
 
-  --primary-foreground: 0 0% 98%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 220 8% 86%;
+  --secondary: 262 83% 58%;
 
-  --secondary-foreground: 222 15% 18%;
+  --secondary-foreground: 0 0% 100%;
 
-  --muted: 220 10% 90%;
+  --muted: 220 10% 92%;
 
-  --muted-foreground: 222 12% 35%;
+  --muted-foreground: 222 12% 42%;
 
-  --accent: 220 14% 88%;
+  --accent: 189 94% 43%;
 
-  --accent-foreground: 222 15% 18%;
+  --accent-foreground: 0 0% 100%;
 
-  --destructive: 0 72% 51%;
+  --destructive: 0 84% 60%;
 
-  --destructive-foreground: 0 0% 98%;
+  --destructive-foreground: 0 0% 100%;
 
   --input: 220 12% 78%;
   --ring: 221 83% 53%;
-  --chart-1: 221 83% 53%;
-  --chart-2: 16 90% 55%;
-  --chart-3: 142 76% 36%;
-  --chart-4: 280 75% 60%;
+  --chart-1: 27 96% 61%;
+  --chart-2: 262 83% 58%;
+  --chart-3: 189 94% 43%;
+  --chart-4: 142 70% 50%;
   --chart-5: 48 96% 53%;
   
-  --nba-orange: 253 90% 63%;
-  --nba-blue: 221 83% 53%;
+  --nba-orange: 27 96% 61%;
+  --nba-blue: 223 64% 33%;
+  --nba-purple: 262 83% 58%;
+  --nba-cyan: 189 94% 43%;
   --court-wood: 32 45% 55%;
   --court-lines: 0 0% 100%;
-  --success-green: 142 76% 36%;
+  --success-green: 142 70% 50%;
   --warning-yellow: 48 96% 53%;
 
   --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -139,73 +141,75 @@
   --elevate-1: rgba(255,255,255, .04);
   --elevate-2: rgba(255,255,255, .09);
 
-  --background: 222 15% 8%;
+  --background: 223 64% 8%;
 
-  --foreground: 0 0% 95%;
+  --foreground: 0 0% 96%;
 
-  --border: 222 12% 18%;
+  --border: 223 30% 22%;
 
-  --card: 222 14% 10%;
+  --card: 223 55% 12%;
 
-  --card-foreground: 0 0% 95%;
+  --card-foreground: 0 0% 96%;
 
-  --card-border: 222 12% 16%;
+  --card-border: 223 35% 18%;
 
-  --sidebar: 222 14% 12%;
+  --sidebar: 223 60% 10%;
 
-  --sidebar-foreground: 0 0% 95%;
+  --sidebar-foreground: 0 0% 96%;
 
-  --sidebar-border: 222 12% 20%;
+  --sidebar-border: 223 35% 20%;
 
-  --sidebar-primary: 221 83% 53%;
+  --sidebar-primary: 27 96% 61%;
 
-  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-primary-foreground: 0 0% 100%;
 
-  --sidebar-accent: 222 12% 18%;
+  --sidebar-accent: 223 40% 18%;
 
-  --sidebar-accent-foreground: 0 0% 92%;
+  --sidebar-accent-foreground: 0 0% 94%;
 
-  --sidebar-ring: 221 83% 53%;
+  --sidebar-ring: 27 96% 61%;
 
-  --popover: 222 14% 14%;
+  --popover: 223 50% 14%;
 
-  --popover-foreground: 0 0% 95%;
+  --popover-foreground: 0 0% 96%;
 
-  --popover-border: 222 12% 22%;
+  --popover-border: 223 30% 24%;
 
-  --primary: 221 83% 53%;
+  --primary: 27 96% 61%;
 
-  --primary-foreground: 0 0% 98%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 222 12% 20%;
+  --secondary: 262 83% 58%;
 
-  --secondary-foreground: 0 0% 92%;
+  --secondary-foreground: 0 0% 100%;
 
-  --muted: 222 12% 16%;
+  --muted: 223 30% 18%;
 
-  --muted-foreground: 0 0% 70%;
+  --muted-foreground: 0 0% 72%;
 
-  --accent: 222 12% 18%;
+  --accent: 189 94% 43%;
 
-  --accent-foreground: 0 0% 92%;
+  --accent-foreground: 0 0% 100%;
 
-  --destructive: 0 72% 51%;
+  --destructive: 0 84% 60%;
 
-  --destructive-foreground: 0 0% 98%;
+  --destructive-foreground: 0 0% 100%;
 
   --input: 222 12% 28%;
   --ring: 221 83% 53%;
-  --chart-1: 221 83% 65%;
-  --chart-2: 16 90% 65%;
-  --chart-3: 142 76% 55%;
-  --chart-4: 280 75% 72%;
+  --chart-1: 27 96% 65%;
+  --chart-2: 262 83% 65%;
+  --chart-3: 189 94% 50%;
+  --chart-4: 142 70% 55%;
   --chart-5: 48 96% 65%;
   
-  --nba-orange: 253 90% 68%;
-  --nba-blue: 221 83% 58%;
+  --nba-orange: 27 96% 65%;
+  --nba-blue: 223 64% 40%;
+  --nba-purple: 262 83% 65%;
+  --nba-cyan: 189 94% 50%;
   --court-wood: 32 45% 60%;
   --court-lines: 0 0% 95%;
-  --success-green: 142 76% 50%;
+  --success-green: 142 70% 55%;
   --warning-yellow: 48 96% 65%;
 
   --shadow-2xs: 0px 1px 2px 0px hsl(0 0% 0% / 0.20);

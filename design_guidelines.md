@@ -2,290 +2,204 @@
 
 ## Design Approach
 
-**Hybrid Approach**: Combining ESPN/NBA.com reference patterns with Material Design system for data-dense components. This application is **utility-focused** with complex data visualization needs requiring custom interactive elements alongside established patterns for tables, filters, and navigation.
+**Reference-Based Hybrid**: ESPN's bold data presentation + NBA.com's premium aesthetic, enhanced with glassmorphism and gradients. **Utility-focused** with experience enhancements—data clarity paramount.
 
-**Key Design Principles**:
-- Data clarity over decoration
-- Immediate information accessibility
-- Scannable hierarchy for stats and metrics
-- Purposeful interactions that enhance data exploration
-- Court visualizations as hero elements
+**Principles**: Premium sports broadcasting aesthetic • Bold, scannable hierarchy • Glassmorphism depth • Energetic NBA colors • Hero-driven sections
 
 ---
 
-## Typography System
+## Color System
 
-**Font Stack**: 
-- Primary: Inter (Google Fonts) - for UI, stats, tables
-- Secondary: Roboto Mono (Google Fonts) - for numerical data, scores
+**Primary**:
+- Deep Court Blue `#1E3A8A` - backgrounds, navigation
+- Electric Orange `#FB923C` - CTAs, live indicators, highlights
+- Vibrant Purple `#7C3AED` - secondary accents, stats
+- Neon Cyan `#06B6D4` - data viz, trends
 
-**Type Scale**:
-- Display (Game Scores): text-6xl (60px), font-bold
-- Heading 1 (Page Titles): text-4xl (36px), font-bold
-- Heading 2 (Section Headers): text-2xl (24px), font-semibold
-- Heading 3 (Card Titles): text-xl (20px), font-semibold
-- Body (Stats Labels): text-base (16px), font-medium
-- Small (Meta Info): text-sm (14px), font-normal
-- Tiny (Timestamps): text-xs (12px), font-normal
+**Neutral**: White `#FFFFFF` • Off-White `#F9FAFB` • Slate Gray `#64748B` • Deep Charcoal `#0F172A`
 
-**Numerical Data**: Use Roboto Mono at font-semibold for all statistics to ensure alignment and readability
+**Semantic**: Win Green `#10B981` • Loss Red `#EF4444` • Warning Amber `#F59E0B`
 
----
+**Gradients**:
+- Hero: Deep Blue → Purple (135deg)
+- Card: Blue → transparent (radial top-left)
+- Stat Highlight: Orange → Purple (horizontal)
+- Live Glow: Pulsing orange → cyan
 
-## Layout System
-
-**Spacing Primitives**: Tailwind units of 2, 4, 6, and 8 (p-2, p-4, m-6, gap-8)
-- Tight spacing (2): Between related stat items
-- Standard spacing (4): Card padding, button gaps
-- Comfortable spacing (6): Section padding, card gaps
-- Generous spacing (8): Major section separation
-
-**Grid System**:
-- Container: max-w-7xl mx-auto px-4
-- Dashboard Grid: grid grid-cols-12 gap-6
-- Stat Cards: 3-column on desktop (grid-cols-3), 2-column tablet (md:grid-cols-2), 1-column mobile
-- Data Tables: Full width with horizontal scroll on mobile
-
-**Breakpoints**:
-- Mobile: base (< 768px)
-- Tablet: md (768px)
-- Desktop: lg (1024px)
-- Wide: xl (1280px)
+**Glassmorphism**: `backdrop-blur-xl` • 80-90% bg opacity • `border: 1px solid rgba(255,255,255,0.18)` • Large soft shadows
 
 ---
 
-## Component Library
+## Typography
+
+**Fonts**:
+- **Inter** - UI, navigation, body
+- **Bebas Neue** - Scores, hero headlines
+- **Roboto Mono** - Statistics, numerical data
+
+**Scale**:
+- Hero Scores: `text-8xl` (96px), Bebas Neue, `font-bold`, `tracking-tight`
+- Large Display: `text-6xl` (60px), Bebas Neue, `font-bold`
+- Section Headers: `text-4xl` (36px), Inter, `font-bold`
+- Card Titles: `text-2xl` (24px), Inter, `font-semibold`
+- Stats Values: `text-3xl` (30px), Roboto Mono, `font-bold`
+- Body: `text-base` (16px), Inter, `font-medium`
+- Labels: `text-sm` (14px) • Meta: `text-xs` (12px), Inter
+
+**Rules**: Scores/stats use Bebas Neue or Roboto Mono • 7:1 contrast minimum • `tracking-tight` display, `tracking-normal` body
+
+---
+
+## Layout
+
+**Spacing**: `3` (inline stats) • `6` (cards, gaps) • `8` (sections, grids) • `12` (major separation, hero)
+
+**Grid**: Container `max-w-7xl mx-auto px-6` • Dashboard `grid-cols-12 gap-6` • Cards: 4-col desktop, 2-col tablet, 1-col mobile
+
+---
+
+## Components
+
+### Hero Section
+- Full-width gradient (Deep Blue → Purple)
+- Height: `min-h-screen` (landing), `min-h-[600px]` (dashboard)
+- Team logos `w-32 h-32` flanking score
+- Score: `text-8xl` Bebas Neue, white
+- Live status: pulsing orange dot
+- Glassmorphic CTAs with `backdrop-blur-lg`
+- Decorative gradient orbs (`absolute`, `blur-3xl`, `opacity-20`)
 
 ### Navigation
+**Top Nav**: Fixed glassmorphic `backdrop-blur-xl bg-slate-900/80` • `h-20` • Active: `border-b-3 border-orange-500` • Orange logo glow • Gradient underline hover
 
-**Top Navigation Bar**:
-- Fixed position with backdrop blur
-- Height: h-16
-- Horizontal layout with logo left, main nav center, user actions right
-- Nav items: text-sm font-medium with p-4
-- Active state: underline decoration-2 underline-offset-8
+**Tabs**: Glassmorphic pills `backdrop-blur-md` • Active: orange→purple gradient • Horizontal scroll mobile with snap
 
-**Secondary Navigation (Tabs)**:
-- Horizontal scrollable tabs for conference switching (East/West/All)
-- Pill-style tabs with px-6 py-2
-- Active tab uses subtle border-b-2
-
-### Dashboard Layout
-
-**Sidebar (Desktop)**:
-- Fixed left sidebar, w-64
-- Quick filters and navigation
-- Collapsible sections with chevron icons (Heroicons)
-- Team/Player search at top with p-4
-
-**Main Content Area**:
-- Flexible width filling remaining space
-- Sticky section headers during scroll
-
-### Data Display Components
-
+### Dashboard Cards
 **Stat Cards**:
-- Compact card with p-6 rounded-lg
-- Large numeric value (text-4xl font-bold Roboto Mono)
-- Label above (text-sm font-medium)
-- Change indicator below (text-xs with up/down arrow icon)
-- Trend sparkline (optional mini chart)
+- Glassmorphic `p-8 rounded-2xl` • Border `1px white/10` • Large shadow
+- Hover: `scale-[1.02]` with lift
+- Value: `text-5xl` Roboto Mono, gradient text (orange→purple)
+- Label: `text-sm uppercase tracking-wide`
+- Trend arrow with green/red badge
 
-**League Standings Table**:
-- Sticky header row
-- Alternating row treatment for readability
-- Team logo + name in first column (w-48)
-- Stat columns: W, L, PCT, GB, STRK (each w-16 text-center)
-- Hover row highlights entire row
-- Conference separator with divider
+**Player/Team Cards**:
+- Horizontal layout (image left, stats right)
+- Photo: `rounded-xl w-24 h-24` gradient border
+- Name: `text-2xl font-bold`
+- Stats: 3-column grid + mini sparkline
 
-**Player Stats Table**:
-- Sortable columns (chevron icons)
-- Avatar + player name column (w-64)
-- Fixed left column during horizontal scroll
-- Stat columns: MIN, PTS, REB, AST, STL, BLK, FG%, 3P%, FT% (each w-20)
-- Top performers highlighted with subtle badge
-- Filterable by position, team
+**Live Game Cards**:
+- Compact horizontal scoreboards
+- Pulsing orange border for live
+- Logos `w-16 h-16`, scores `text-4xl` Bebas Neue
+- Gradient based on leading team
 
-**Live Game Scoreboard**:
-- Horizontal card layout (h-24)
-- Team logos facing center with scores (text-3xl font-bold)
-- Quarter/Time below scores (text-sm)
-- Live indicator (pulsing dot with "LIVE" text)
-- Click to expand for detailed view
+### Data Tables
+- Glassmorphic container, sticky gradient header
+- Header: `text-xs uppercase tracking-wider white/90`
+- Hover row: orange left border accent
+- Numerical: Roboto Mono, right-aligned
+- Top performers: gradient badge + star
+- Sortable: animated chevrons
 
-### Interactive Visualizations
+**Standings**: Gradient rank numbers (#1 gold) • Team color dot • Win/Loss green/red bg • Streak flame icon • Gradient playoff separator
 
-**Basketball Court Shot Chart**:
-- SVG court illustration at 600x550px
-- Court lines in subtle stroke
-- Plotted shots as circles (r-4 for makes, r-3 for misses)
-- Heatmap overlay using gradient opacity
-- Legend showing efficiency zones
-- Toggle between shot chart and heatmap view
-- Pan/zoom controls (bottom-right)
+### Visualizations
+**Shot Chart** (700x650px):
+- Dark court, neon SVG lines
+- Gradient dots: green (makes), red (misses)
+- Heatmap: blue→orange/red
+- Glassmorphic tooltips + controls
 
-**Animated Play-by-Play Court**:
-- Full court view (800x470px)
-- Player dots (w-8 h-8 rounded-full) with jersey numbers (text-xs)
-- Ball visualization (w-4 h-4 rounded-full)
-- Movement trails (stroke-2 dashed)
-- Timeline scrubber below court:
-  - Progress bar showing game time
-  - Play markers on timeline
-  - Playback controls: Previous Play, Play/Pause, Next Play (icon buttons w-10 h-10)
-  - Speed control: 0.5x, 1x, 2x (text-xs buttons)
+**Play-by-Play** (900x530px):
+- Dramatic lighting gradient
+- Team color player dots + numbers
+- Glowing orange ball with trail
+- Glassmorphic timeline scrubber
+- Orange progress fill
 
-**Shot Distribution Charts**:
-- Donut chart showing 2PT vs 3PT vs FT percentages
-- Court zones bar chart (Paint, Mid-Range, 3PT by section)
-- Shooting percentage by quarter line chart
-- SVG-based charts at 400x300px
-
-**Performance Trend Lines**:
-- Time-series line chart showing stats over games/season
-- Multi-line for comparing players
-- Interactive tooltips on hover
-- Date range selector
-
-### Interactive Tables
-
-**Features**:
-- Column sorting (click header, shows ascending/descending icon)
-- Multi-column sorting (shift+click)
-- Column filtering (dropdown icons in headers)
-- Comparison mode (checkbox selection, highlights 2-3 rows)
-- Sticky headers during scroll
-- Export button (CSV download) in table toolbar
-
-**Table Toolbar**:
-- Height: h-12
-- Search input (w-64) with search icon
-- Filter chips showing active filters
-- View options (compact/comfortable toggle)
-- Export button (right-aligned)
-
-### Forms & Controls
-
-**Search Input**:
-- Height: h-10
-- Leading icon (search icon from Heroicons)
-- Placeholder text: text-sm
-- Autocomplete dropdown with player/team suggestions
-- Rounded-lg border
-
-**Dropdown Filters**:
-- Height: h-10
-- Chevron icon indicating expandable
-- Multi-select with checkboxes
-- Apply/Clear buttons in dropdown footer
-
-**Toggle Switches**:
-- Standard Material Design switch
-- Use for binary options (Conference filter, Live only, etc.)
-
-**Button Hierarchy**:
-- Primary: px-6 py-2.5 rounded-lg font-semibold
-- Secondary: px-6 py-2.5 rounded-lg font-medium border
-- Icon buttons: w-10 h-10 rounded-lg (for toolbar actions)
-- Text buttons: font-medium underline-offset-4 (for subtle actions)
+**Performance Charts** (600x400px):
+- Gradient fills beneath curves
+- Glassmorphic tooltips
+- Grid lines `white/10`
+- Axis: `text-xs uppercase`
 
 ### Modals & Overlays
+**Player Modal**:
+- Deep blue gradient overlay
+- Glassmorphic `max-w-5xl` container
+- Gradient name treatment
+- Tabbed nav with gradient indicator
 
-**Player Detail Modal**:
-- Full-screen overlay on mobile, centered modal on desktop (max-w-4xl)
-- Header with player photo, name, team, position
-- Tabbed content: Overview, Stats, Shot Chart, Recent Games
-- Close button (top-right, w-10 h-10)
+**Live Sidebar**:
+- Slide-in right `w-[480px]`
+- Glassmorphic with team gradient
+- Play-by-play list + box score
+- Custom orange scrollbar
 
-**Game Detail Sidebar**:
-- Slide-in from right
-- Width: w-96
-- Box score, play-by-play list, team stats tabs
-- Scrollable content area
+### Buttons & Controls
+**Hierarchy**:
+- Primary: Gradient (orange→purple), white, `px-8 py-4 text-lg font-semibold rounded-xl`
+- Secondary: Glassmorphic border, `backdrop-blur-md px-8 py-4`
+- Icon: `w-12 h-12` glassmorphic circles
+- Links: Gradient underline on hover
 
----
+**On Images/Hero**: Always `backdrop-blur-xl` with semi-transparent bg • No custom hover states
 
-## Animations
-
-**Minimal & Purposeful**:
-- Table row hover: translate-y-[-2px] (lift effect)
-- Button hover: No custom animation (browser default)
-- Live game pulse: Subtle opacity animation on live indicator only
-- Shot chart plot: Fade-in on load
-- Play-by-play animation: Smooth position transitions (duration-500)
-- Chart data: Staggered fade-in on load (duration-300)
-
-**No Animations**:
-- Page transitions
-- Scroll effects
-- Decorative animations
-
----
-
-## Icons
-
-**Library**: Heroicons (via CDN)
-
-**Common Icons**:
-- Navigation: ChevronDown, ChevronUp, ChevronLeft, ChevronRight
-- Actions: MagnifyingGlass, XMark, AdjustmentsHorizontal
-- Stats: ArrowTrendingUp, ArrowTrendingDown
-- Media: Play, Pause, Forward, Backward
-- Data: TableCells, ChartBar, MapPin
-
-**Icon Sizing**:
-- Small: w-4 h-4 (inline with text)
-- Medium: w-5 h-5 (buttons, labels)
-- Large: w-6 h-6 (section headers)
+**Forms**: Search glassmorphic `h-12 rounded-xl` • Toggles gradient track (orange→purple) • Sliders gradient fill
 
 ---
 
 ## Images
 
-**Hero Image**: Not applicable - this is a data-focused dashboard application
+**Hero** (1920x1080px min):
+- Dynamic game action photography
+- Gradient overlay (deep blue→transparent)
+- Background with subtle parallax
+- Mid-dunk/celebration moments
 
-**Player/Team Photos**:
-- Player headshots: Circular avatars at w-12 h-12 (tables), w-24 h-24 (cards), w-32 h-32 (modals)
-- Team logos: Square at w-8 h-8 (tables), w-16 h-16 (scoreboards)
-- Placeholder: Use team color or neutral background with initials
+**Players/Teams**:
+- Headshots: `w-12 h-12` (tables), `w-28 h-28` (cards), `w-40 h-40` (modals), circular
+- Logos: `w-10 h-10` (tables), `w-20 h-20` (cards), `w-32 h-32` (hero), square
+- Team color glow + gradient borders
 
-**Court Illustrations**:
-- Custom SVG basketball court diagrams for shot charts and play-by-play
-- Maintain NBA regulation proportions
-- Use as background for data overlays
+**Court**: Custom SVG neon lines, gradient shading for depth
+
+---
+
+## Animations
+
+**Use**:
+- Hero: Staggered fade-in (`duration-700`, 100ms delays)
+- Cards: Hover `scale-[1.02] duration-300`
+- Live: `pulse-slow` opacity
+- Score updates: Count-up `duration-500`
+- Charts: Draw-in `duration-800 ease-out`
+- Buttons: Gradient shift `duration-200`
+- Modals: Slide-up + fade `duration-400`
+
+**Avoid**: Page transitions • Scroll effects • Particle effects
 
 ---
 
 ## Accessibility
 
-- All interactive elements have min-height/width of h-10/w-10 for touch targets
-- Tables include scope attributes and proper header relationships
-- Form inputs have associated labels (visible or aria-label)
-- Color is never the only indicator (use icons, text, patterns)
-- Focus states visible on all interactive elements (ring-2 ring-offset-2)
-- Keyboard navigation supported throughout (tab order, arrow keys for tables)
-- Screen reader announcements for live score updates
-- Alt text for all player/team images
+- Touch targets: `h-12 w-12` minimum
+- Contrast: 7:1 ratio all text
+- Focus: Prominent orange ring with offset
+- Glassmorphism: Solid fallback backgrounds
+- Alt text all images
+- ARIA labels icon-only buttons
+- Keyboard nav with visible focus
+- Screen reader live score announcements
+- Gradient readability checks
 
 ---
 
-## Responsive Behavior
+## Responsive
 
-**Mobile (< 768px)**:
-- Sidebar collapses to hamburger menu
-- Tables scroll horizontally with fixed first column
-- Court visualizations scale down to full viewport width
-- Stack stat cards vertically
-- Simplified play-by-play (list view instead of court animation)
+**Mobile (<768px)**: Hero `min-h-[500px]` • Cards full-width `p-6` • Tables horizontal scroll • Reduced blur • Fonts -30%
 
-**Tablet (768px - 1024px)**:
-- 2-column stat card grid
-- Sidebar remains visible but narrower (w-48)
-- Tables show fewer columns by default (expandable)
+**Tablet (768-1024px)**: Hero `min-h-[600px]` • 2-col grid • Drawer nav
 
-**Desktop (1024px+)**:
-- Full 3-column layouts
-- Side-by-side comparisons
-- Picture-in-picture for live games while browsing stats
-- Multi-panel views (standings + live games + highlights)
+**Desktop (1024px+)**: Full treatments • 4-col layouts • Multi-panel • PiP live games

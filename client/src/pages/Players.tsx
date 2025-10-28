@@ -2,11 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { type SeasonStats } from "@shared/schema";
 import { PlayerStatsTable } from "@/components/PlayerStatsTable";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Players() {
-  const { data: stats, isLoading } = useQuery<SeasonStats[]>({
+  const { data: stats, isLoading, error } = useQuery<SeasonStats[]>({
     queryKey: ["/api/players/stats"],
+    retry: 1,
   });
 
   const topScorers = stats?.slice(0, 50) || [];
@@ -26,6 +29,14 @@ export default function Players() {
 
       {isLoading ? (
         <Skeleton className="h-96" />
+      ) : error ? (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Unable to load player statistics</AlertTitle>
+          <AlertDescription>
+            The NBA API is currently rate limited. Please refresh the page in a few moments to see player stats.
+          </AlertDescription>
+        </Alert>
       ) : (
         <Tabs defaultValue="all" className="w-full">
           <TabsList>

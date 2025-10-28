@@ -4,7 +4,7 @@ import type { Team, Player, Game, PlayerStats, SeasonStats, Standing, TeamStats,
 const BALLDONTLIE_API = "https://api.balldontlie.io/v1";
 const API_KEY = process.env.BALLDONTLIE_API_KEY;
 
-async function fetchFromAPI(endpoint: string, cacheKey?: string, cacheTTL = 60): Promise<any> {
+async function fetchFromAPI(endpoint: string, cacheKey?: string, cacheTTL = 300): Promise<any> {
   if (cacheKey) {
     const cached = storage.getCached(cacheKey);
     if (cached) {
@@ -18,11 +18,14 @@ async function fetchFromAPI(endpoint: string, cacheKey?: string, cacheTTL = 60):
 
   const response = await fetch(`${BALLDONTLIE_API}${endpoint}`, {
     headers: {
-      'Authorization': API_KEY,
+      'Authorization': `Bearer ${API_KEY}`,
     },
   });
   
   if (!response.ok) {
+    if (response.status === 429) {
+      throw new Error("API rate limit reached. Please try again later.");
+    }
     throw new Error(`NBA API error: ${response.statusText}`);
   }
 
@@ -42,7 +45,7 @@ export async function getAllTeams(): Promise<Team[]> {
 
 export async function getTodaysGames(): Promise<Game[]> {
   const today = new Date().toISOString().split('T')[0];
-  const data = await fetchFromAPI(`/games?dates[]=${today}&per_page=100`, `games-${today}`, 60);
+  const data = await fetchFromAPI(`/games?dates[]=${today}&per_page=100`, `games-${today}`, 120);
   
   return data.data.map((game: any) => ({
     id: game.id,
@@ -61,7 +64,7 @@ export async function getTodaysGames(): Promise<Game[]> {
 
 export async function getGame(gameId: string): Promise<Game | null> {
   try {
-    const data = await fetchFromAPI(`/games/${gameId}`, `game-${gameId}`, 30);
+    const data = await fetchFromAPI(`/games/${gameId}`, `game-${gameId}`, 120);
     return {
       id: data.id,
       date: data.date,

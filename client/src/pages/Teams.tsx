@@ -2,6 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { type TeamStats } from "@shared/schema";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 import { ConferenceTabs } from "@/components/ConferenceTabs";
 import {
   Table,
@@ -13,8 +15,9 @@ import {
 } from "@/components/ui/table";
 
 export default function Teams() {
-  const { data: teamStats, isLoading } = useQuery<TeamStats[]>({
+  const { data: teamStats, isLoading, error } = useQuery<TeamStats[]>({
     queryKey: ["/api/teams/stats"],
+    retry: 1,
   });
 
   const eastTeams = teamStats?.filter(t => t.team.conference === "East") || [];
@@ -87,6 +90,14 @@ export default function Teams() {
 
       {isLoading ? (
         <Skeleton className="h-96" />
+      ) : error ? (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Unable to load team statistics</AlertTitle>
+          <AlertDescription>
+            The NBA API is currently rate limited. Please refresh the page in a few moments to see team stats.
+          </AlertDescription>
+        </Alert>
       ) : (
         <ConferenceTabs
           eastContent={<TeamStatsTable teams={eastTeams} />}

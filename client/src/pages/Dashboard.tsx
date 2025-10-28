@@ -4,17 +4,21 @@ import { LiveGameCard } from "@/components/LiveGameCard";
 import { StandingsTable } from "@/components/StandingsTable";
 import { ConferenceTabs } from "@/components/ConferenceTabs";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 import { useLocation } from "wouter";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
 
-  const { data: games, isLoading: gamesLoading } = useQuery<Game[]>({
+  const { data: games, isLoading: gamesLoading, error: gamesError } = useQuery<Game[]>({
     queryKey: ["/api/games/today"],
+    retry: 1,
   });
 
-  const { data: standings, isLoading: standingsLoading } = useQuery<Standing[]>({
+  const { data: standings, isLoading: standingsLoading, error: standingsError } = useQuery<Standing[]>({
     queryKey: ["/api/standings"],
+    retry: 1,
   });
 
   const eastStandings = standings?.filter(s => s.team.conference === "East") || [];
@@ -93,10 +97,31 @@ export default function Dashboard() {
         </section>
       )}
 
+      {gamesError && (
+        <section>
+          <h2 className="text-2xl font-bold mb-4">Today's Games</h2>
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Unable to load games</AlertTitle>
+            <AlertDescription>
+              The NBA API is currently rate limited. Please refresh the page in a few moments to see today's games.
+            </AlertDescription>
+          </Alert>
+        </section>
+      )}
+
       <section>
         <h2 className="text-2xl font-bold mb-4">Standings</h2>
         {standingsLoading ? (
           <Skeleton className="h-96" />
+        ) : standingsError ? (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Unable to load standings</AlertTitle>
+            <AlertDescription>
+              The NBA API is currently rate limited. Please refresh the page in a few moments to see the standings.
+            </AlertDescription>
+          </Alert>
         ) : (
           <ConferenceTabs
             eastContent={<StandingsTable standings={eastStandings} conference="East" />}

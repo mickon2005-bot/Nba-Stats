@@ -1,8 +1,17 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { fetchStatsNBA, handleError } from '../../lib/stats-nba';
 
-function generateFallbackShots(playerId: string) {
-  const shots = [];
+interface ShotData {
+  LOC_X: number;
+  LOC_Y: number;
+  SHOT_MADE_FLAG: number;
+  SHOT_TYPE: string;
+  SHOT_ZONE_BASIC: string;
+  SHOT_DISTANCE: number;
+}
+
+function generateFallbackShots(playerId: string): ShotData[] {
+  const shots: ShotData[] = [];
   const zones = [
     { name: 'Paint', xRange: [-80, 80], yRange: [0, 100], makeRate: 0.55 },
     { name: 'Mid-Range', xRange: [-180, 180], yRange: [100, 200], makeRate: 0.42 },

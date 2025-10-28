@@ -1,8 +1,20 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { fetchStatsNBA, handleError } from '../../lib/stats-nba';
 
-function generateFallbackGameLog() {
-  const games = [];
+interface GameLogData {
+  GAME_DATE: string;
+  MATCHUP: string;
+  WL: string;
+  PTS: number;
+  REB: number;
+  AST: number;
+  FG_PCT: number;
+  FG3_PCT: number;
+  FT_PCT: number;
+}
+
+function generateFallbackGameLog(): GameLogData[] {
+  const games: GameLogData[] = [];
   const baseStats = {
     PTS: 22 + Math.random() * 8,
     REB: 5 + Math.random() * 5,

@@ -1,7 +1,15 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { fetchStatsNBA, handleError } from '../../lib/stats-nba';
 
-function generateFallbackPlays() {
+interface PlayData {
+  EVENTNUM: number;
+  PCTIMESTRING: string;
+  HOMEDESCRIPTION: string | null;
+  VISITORDESCRIPTION: string | null;
+  SCORE: string;
+}
+
+function generateFallbackPlays(): PlayData[] {
   const events = [
     'Made shot',
     'Missed shot',
@@ -13,7 +21,7 @@ function generateFallbackPlays() {
     'Free throw missed',
   ];
 
-  const plays = [];
+  const plays: PlayData[] = [];
   let clock = 720; // 12 minutes in seconds
 
   for (let i = 0; i < 50; i++) {
